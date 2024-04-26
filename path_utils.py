@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def find_local_root(marker_file='.local_root') -> Path:
     """
     Find the project root directory marked by a specific file.
@@ -20,6 +21,7 @@ def find_local_root(marker_file='.local_root') -> Path:
             return parent
     raise FileNotFoundError(f'Project root not found.')
 
-def path_from_local_root(path = ''): 
+
+def path_from_local_root(path=''):
     project_root = find_local_root()
     return project_root / path

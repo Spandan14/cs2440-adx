@@ -163,9 +163,9 @@ class Campaign:
         self._costs = costs
 
     def __repr__(self):
-        return "{}(uid: {}, reach: {}, budget: {}, target: {})".format(self.__class__.__name__,
+        return "{}(uid: {}, reach: {}, budget: {}, target: {}, start: {}, end: {})".format(self.__class__.__name__,
                                                                        self.uid, self.reach, 
-                                                                       self.budget, self.target)
+                                                                       self.budget, self._target, self.start_day, self.end_day)
 
     def __lt__(self, other):
         return (self.budget / self.reach) <= (other.budget / other.reach)

@@ -16,7 +16,6 @@ CONFIG = {
         'campaign_reach_dist': [0.3,0.5,0.7],
         'campaign_length_dist': [1, 2, 3],
         'market_segment_dist': [
-            MarketSegment(("Male", "Young")),
             MarketSegment(("Male", "Old")),
             MarketSegment(("Male", "LowIncome")),
             MarketSegment(("Male", "HighIncome")),
