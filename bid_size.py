@@ -2,7 +2,7 @@ from adx.structures import Campaign
 
 BLK_FACTOR_LIMIT = 0.7
 BASELINE_ALPHA = 3
-MAX_ALPHA = 9
+MAX_ALPHA = 20
 
 
 def get_block_size_from_competition(alpha: float, campaign: Campaign, current_day: int) -> float:
@@ -20,8 +20,8 @@ def get_block_size_from_competition(alpha: float, campaign: Campaign, current_da
         return max(0.0, blk_factor * left_reach)
 
 
-CAMPAIGN_BID_MAX = 1.0
-CAMPAIGN_BID_MIN = 0.3
+CAMPAIGN_BID_MAX = 0.8
+CAMPAIGN_BID_MIN = 0.1
 
 
 def get_campaign_bid_from_competition(alpha: float, campaign: Campaign) -> float:
