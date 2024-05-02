@@ -1,6 +1,7 @@
 from adx.structures import MarketSegment
 from adx.adx_game_simulator import CONFIG
 
+
 def segment_to_group_set(segment: MarketSegment) -> set:
     if segment == MarketSegment(("Male", "Young")):
         return {"Male", "Young"}
@@ -46,10 +47,22 @@ def segment_to_group_set(segment: MarketSegment) -> set:
         raise ValueError("segment_to_group_set: Invalid MarketSegment")
 
 
+# Check if campaign with "other" market segment can bid on "base" market segment
 def is_market_segment_competing(base: MarketSegment, other: MarketSegment) -> bool:
     base_set = segment_to_group_set(base)
     other_set = segment_to_group_set(other)
     return base_set.intersection(other_set) == other_set
+
+
+# Returns all the market segments that a campaign with "base" market segment can bid on
+def get_biddable_segments(mkt_seg: MarketSegment) -> set:
+    all_segments = MarketSegment.all_segments()
+    biddable = set()
+    for segment in all_segments:
+        if is_market_segment_competing(segment, mkt_seg):
+            biddable.add(segment)
+
+    return biddable
 
 
 def expected_long_camp_reach(mkt_seg: MarketSegment, num_campaigns):

@@ -255,7 +255,6 @@ class AdXGameSimulator:
         our_alpha = np.zeros((num_simulations, self.num_days, 1))
         # END OUR CODE -------------------------
 
-
         for i in range(num_simulations):
             print('[INFO] Running simulation #', i + 1)
             self.states = self.init_agents(agents)
