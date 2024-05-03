@@ -8,9 +8,9 @@ from better_market_segments import get_biddable_segments
 from bid_size import *
 from campaign_observations import CampaignObservations
 from math_utils import avg_effective_reach
-
-import numpy as np
-import matplotlib.pyplot as plt
+#
+# import numpy as np
+# import matplotlib.pyplot as plt
 
 
 class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
@@ -84,39 +84,41 @@ if __name__ == "__main__":
 
     # Don't change this. Adapt initialization to your environment
     simulator = AdXGameSimulator()
-    quality_scores, profits, active_camps, our_alpha = simulator.run_simulation(agents=test_agents, num_simulations=100)
+    # quality_scores, profits, active_camps, our_alpha = simulator.run_simulation(agents=test_agents, num_simulations=100)
+    simulator.run_simulation(agents=test_agents, num_simulations=100)
 
-    days = np.arange(1, quality_scores.shape[1] + 1)
-    num_agents = quality_scores.shape[2]
-
-    avg_qs = np.mean(quality_scores, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_qs[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
-
-    plt.title("Quality Scores")
-    plt.legend()
-    plt.show()
-
-    avg_profits = np.mean(profits, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_profits[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
-
-    plt.title("Profits")
-    plt.legend()
-    plt.show()
-
-    avg_active_camps = np.mean(active_camps, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_active_camps[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
-
-    plt.title("Active Campaigns")
-    plt.legend()
-    plt.show()
-
-    daily_alpha = np.mean(our_alpha, axis=0)
-    plt.plot(days, daily_alpha, label="Our Alpha", color='b')
-    plt.title("Our Alpha")
-    plt.legend()
-    plt.show()
+    #
+    # days = np.arange(1, quality_scores.shape[1] + 1)
+    # num_agents = quality_scores.shape[2]
+    #
+    # avg_qs = np.mean(quality_scores, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_qs[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Quality Scores")
+    # plt.legend()
+    # plt.show()
+    #
+    # avg_profits = np.mean(profits, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_profits[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Profits")
+    # plt.legend()
+    # plt.show()
+    #
+    # avg_active_camps = np.mean(active_camps, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_active_camps[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Active Campaigns")
+    # plt.legend()
+    # plt.show()
+    #
+    # daily_alpha = np.mean(our_alpha, axis=0)
+    # plt.plot(days, daily_alpha, label="Our Alpha", color='b')
+    # plt.title("Our Alpha")
+    # plt.legend()
+    # plt.show()
 
 

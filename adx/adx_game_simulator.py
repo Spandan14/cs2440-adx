@@ -7,7 +7,7 @@ from adx.states import CampaignBidderState
 from collections import defaultdict
 from adx.agents import NDaysNCampaignsAgent
 from math import isfinite, atan
-import numpy as np
+# import numpy as np
 
 CONFIG = {
         'num_agents': 10,
@@ -248,12 +248,12 @@ class AdXGameSimulator:
 
     def run_simulation(self, agents: list[NDaysNCampaignsAgent], num_simulations: int) -> None:
         total_profits = {agent : 0.0 for agent in agents}
-        # OUR CODE -------------------------
-        quality_scores = np.zeros((num_simulations, self.num_days, len(agents)))
-        profits = np.zeros((num_simulations, self.num_days, len(agents)))
-        active_camps = np.zeros((num_simulations, self.num_days, len(agents)))
-        our_alpha = np.zeros((num_simulations, self.num_days, 1))
-        # END OUR CODE -------------------------
+        # # OUR CODE -------------------------
+        # quality_scores = np.zeros((num_simulations, self.num_days, len(agents)))
+        # profits = np.zeros((num_simulations, self.num_days, len(agents)))
+        # active_camps = np.zeros((num_simulations, self.num_days, len(agents)))
+        # our_alpha = np.zeros((num_simulations, self.num_days, 1))
+        # # END OUR CODE -------------------------
 
         for i in range(num_simulations):
             print('[INFO] Running simulation #', i + 1)
@@ -330,11 +330,11 @@ class AdXGameSimulator:
                         self.campaigns[random_campaign.uid] = random_campaign
 
                     # OUR CODE -------------------------
-                    quality_scores[i, day - 1, agent.agent_num] = agent.quality_score
-                    profits[i, day - 1, agent.agent_num] = agent.profit
-                    active_camps[i, day - 1, agent.agent_num] = len(agent.get_active_campaigns())
-
-                our_alpha[i, day - 1, 0] = self.agents[0].avg_alpha
+                #     quality_scores[i, day - 1, agent.agent_num] = agent.quality_score
+                #     profits[i, day - 1, agent.agent_num] = agent.profit
+                #     active_camps[i, day - 1, agent.agent_num] = len(agent.get_active_campaigns())
+                #
+                # our_alpha[i, day - 1, 0] = self.agents[0].avg_alpha
                 # END OUR CODE -------------------------
 
             for agent in self.agents:
@@ -342,5 +342,5 @@ class AdXGameSimulator:
             self.print_game_results()
         self.print_final_results(total_profits, num_simulations)
 
-
-        return quality_scores, profits, active_camps, our_alpha
+        #
+        # return quality_scores, profits, active_camps, our_alpha
