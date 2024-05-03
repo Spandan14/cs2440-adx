@@ -48,7 +48,9 @@ class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
             bid_amt = 1.25 * avg_effective_reach(campaign.cumulative_reach, campaign.cumulative_reach + blk_size,
                                           campaign.reach)
             total_limit = blk_size * bid_amt
-            if total_limit == 0:
+
+            # changed this from total_limit == 0 to < bid_amt
+            if total_limit < bid_amt:
                 bid_amt = 0
 
             print(f"campaign {campaign.uid} bid: {bid_amt} limit: {total_limit} blk_size: {blk_size / campaign.reach} "
