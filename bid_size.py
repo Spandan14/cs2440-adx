@@ -4,7 +4,7 @@ from scipy.optimize import fsolve
 import math
 
 BLK_FACTOR_LIMIT = 1 # has to be fucking over 1
-BASELINE_ALPHA = 3
+BASELINE_ALPHA = 3.8
 MAX_ALPHA = 20
 
 
