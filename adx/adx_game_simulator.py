@@ -107,7 +107,7 @@ class AdXGameSimulator:
     
     def generate_campaign(self, start_day: int, end_day: Optional[int] = None) -> Campaign:
         delta = random.choice(self.campaign_reach_dist)
-        length =  random.choice(self.campaign_length_dist)
+        length = random.choice(self.campaign_length_dist)
         mkt_segment = random.choice(self.market_segment_dist)
         reach = int(self.market_segment_pop[mkt_segment] * delta)
         if end_day is None:

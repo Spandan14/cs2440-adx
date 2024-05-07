@@ -8,19 +8,27 @@ BASELINE_ALPHA = 3
 MAX_ALPHA = 20
 
 
-def get_block_size_from_competition(alpha: float, campaign: Campaign, current_day: int) -> float:
-    reach_ratio = 1 / (campaign.end_day - current_day + 1)
+class BlockSizeDeterminer:
+    def __init__(self, blk_factor_limit, baseline_alpha, max_alpha):
+        self.blk_factor_limit = blk_factor_limit
+        self.baseline_alpha = baseline_alpha
+        self.max_alpha = max_alpha
 
-    if alpha < BASELINE_ALPHA:
-        a_ratio = alpha / BASELINE_ALPHA
-        blk_factor = (1 - a_ratio) * (BLK_FACTOR_LIMIT - reach_ratio) + reach_ratio
-        left_reach = campaign.reach - campaign.cumulative_reach  # R_l
-        return max(0.0, min(BLK_FACTOR_LIMIT * left_reach, blk_factor * left_reach))
-    elif alpha > BASELINE_ALPHA:
-        a_ratio = (alpha - BASELINE_ALPHA) / (MAX_ALPHA - BASELINE_ALPHA)
-        blk_factor = (1 - a_ratio) * reach_ratio
-        left_reach = campaign.reach - campaign.cumulative_reach
-        return max(0.0, blk_factor * left_reach)
+    def get_block_size_from_competition(self, alpha: float, campaign: Campaign, current_day: int) -> float:
+        reach_ratio = 1 / (campaign.end_day - current_day + 1)
+
+        if alpha < self.baseline_alpha:
+            a_ratio = alpha / self.baseline_alpha
+            blk_factor = (1 - a_ratio) * (self.blk_factor_limit - reach_ratio) + reach_ratio
+            left_reach = campaign.reach - campaign.cumulative_reach  # R_l
+            return max(0.0, min(self.blk_factor_limit * left_reach, blk_factor * left_reach))
+        elif alpha > self.baseline_alpha:
+            a_ratio = (alpha - self.baseline_alpha) / (self.max_alpha - self.baseline_alpha)
+            blk_factor = (1 - a_ratio) * reach_ratio
+            left_reach = campaign.reach - campaign.cumulative_reach
+            return max(0.0, blk_factor * left_reach)
+        else:
+            return reach_ratio
 
 
 CAMPAIGN_BID_MAX = 0.9

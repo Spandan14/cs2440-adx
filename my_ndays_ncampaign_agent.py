@@ -14,12 +14,14 @@ import matplotlib.pyplot as plt
 
 
 class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
-    def __init__(self):
+    def __init__(self, *argv):
         # TODO: fill this in (if necessary)
         super().__init__()
+        # FIRST THREE ARGUMENTS ARE blk_factor_limit, baseline_alpha, max_alpha
         self.name = "Samuel Benjamin Bankman-Fried"  # TODO: enter a name.
         self.NUM_PLAYERS = 10
         self.campaign_obs = CampaignObservations(self.NUM_PLAYERS)
+        self.blk_size_det = BlockSizeDeterminer(argv[0], argv[1], argv[2])
         self.avg_alpha = 0
 
     def on_new_game(self) -> None:
@@ -44,7 +46,7 @@ class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
                     min_alpha = alpha
 
             day_alpha += min_alpha
-            blk_size = get_block_size_from_competition(min_alpha, campaign, self.current_day)
+            blk_size = self.blk_size_det.get_block_size_from_competition(min_alpha, campaign, self.current_day)
             bid_amt = 1.25 * avg_effective_reach(campaign.cumulative_reach, campaign.cumulative_reach + blk_size,
                                           campaign.reach)
             total_limit = blk_size * bid_amt
@@ -78,45 +80,49 @@ class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
         return bids
 
 
-if __name__ == "__main__":
-    # Here's an opportunity to test offline against some TA agents. Just run this file to do so.
-    test_agents = [MyNDaysNCampaignsAgent()] + [Tier1NDaysNCampaignsAgent(name=f"Agent {i + 1}") for i in range(9)]
-
+def run_simulation(test_agents, num_sims):
     # Don't change this. Adapt initialization to your environment
     simulator = AdXGameSimulator()
-    quality_scores, profits, active_camps, our_alpha = simulator.run_simulation(agents=test_agents, num_simulations=100)
+    quality_scores, profits, active_camps, our_alpha = simulator.run_simulation(agents=test_agents, num_simulations=num_sims)
 
-    days = np.arange(1, quality_scores.shape[1] + 1)
-    num_agents = quality_scores.shape[2]
+    return quality_scores, profits, active_camps, our_alpha
 
-    avg_qs = np.mean(quality_scores, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_qs[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    # days = np.arange(1, quality_scores.shape[1] + 1)
+    # num_agents = quality_scores.shape[2]
+    #
+    # avg_qs = np.mean(quality_scores, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_qs[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Quality Scores")
+    # plt.legend()
+    # plt.show()
+    #
+    # avg_profits = np.mean(profits, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_profits[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Profits")
+    # plt.legend()
+    # plt.show()
+    #
+    # avg_active_camps = np.mean(active_camps, axis=0)
+    # for i in range(num_agents):
+    #     plt.plot(days, avg_active_camps[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
+    #
+    # plt.title("Active Campaigns")
+    # plt.legend()
+    # plt.show()
+    #
+    # daily_alpha = np.mean(our_alpha, axis=0)
+    # plt.plot(days, daily_alpha, label="Our Alpha", color='b')
+    # plt.title("Our Alpha")
+    # plt.legend()
+    # plt.show()
 
-    plt.title("Quality Scores")
-    plt.legend()
-    plt.show()
 
-    avg_profits = np.mean(profits, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_profits[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
-
-    plt.title("Profits")
-    plt.legend()
-    plt.show()
-
-    avg_active_camps = np.mean(active_camps, axis=0)
-    for i in range(num_agents):
-        plt.plot(days, avg_active_camps[:, i], label=f"Agent {i + 1}", color='b' if i == 0 else 'orange')
-
-    plt.title("Active Campaigns")
-    plt.legend()
-    plt.show()
-
-    daily_alpha = np.mean(our_alpha, axis=0)
-    plt.plot(days, daily_alpha, label="Our Alpha", color='b')
-    plt.title("Our Alpha")
-    plt.legend()
-    plt.show()
-
-
+if __name__ == "__main__":
+    # Here's an opportunity to test offline against some TA agents. Just run this file to do so.
+    test_agents = [MyNDaysNCampaignsAgent(BLK_FACTOR_LIMIT, BASELINE_ALPHA, MAX_ALPHA)] +\
+                  [Tier1NDaysNCampaignsAgent(name=f"Agent {i + 1}") for i in range(9)]
+    run_simulation(test_agents, 5)
