@@ -61,7 +61,6 @@ def get_biddable_segments(mkt_seg: MarketSegment) -> set:
     for segment in all_segments:
         if is_market_segment_competing(segment, mkt_seg):
             biddable.add(segment)
-            
 
     return biddable
 
