@@ -47,8 +47,8 @@ class MyNDaysNCampaignsAgent(NDaysNCampaignsAgent):
 
             day_alpha += min_alpha
             blk_size = self.blk_size_det.get_block_size_from_competition(min_alpha, campaign, self.current_day)
-            bid_amt = 1.25 * avg_effective_reach(campaign.cumulative_reach, campaign.cumulative_reach + blk_size,
-                                          campaign.reach)
+            bid_amt = 1.5 * avg_effective_reach(campaign.cumulative_reach, campaign.cumulative_reach + blk_size,
+                                          campaign.reach) * (campaign.budget / campaign.reach)
             total_limit = blk_size * bid_amt
 
             # changed this from total_limit == 0 to < bid_amt
